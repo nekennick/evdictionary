@@ -25,7 +25,7 @@ class _OfflineSearchScreenState extends State<OfflineSearchScreen>
   List<Word> items = [];
 
   Future<List> _getListWords(String word) async {
-    Database db = await databaseHelper.database;
+    Database db = (await databaseHelper.database)!;
 
     String tableName;
     if (translateType == Translate.av) {
@@ -48,13 +48,13 @@ class _OfflineSearchScreenState extends State<OfflineSearchScreen>
       ),
     );
     words
-        .sort((a, b) => (a.word.toLowerCase()).compareTo(b.word.toLowerCase()));
+        .sort((a, b) => (a.word!.toLowerCase()).compareTo(b.word!.toLowerCase()));
     return words;
   }
 
   // Insert to history table with 2 field are id and table
   void _insertToHistory(Word word) async {
-    Database db = await databaseHelper.database;
+    Database db = (await databaseHelper.database)!;
     String tb;
     if (translateType == Translate.av) {
       tb = 'av';
@@ -83,14 +83,14 @@ class _OfflineSearchScreenState extends State<OfflineSearchScreen>
   void _updateListWord(String value) async {
     List result = await _getListWords(value);
     setState(() {
-      items = result;
+      items = result as List<Word>;
     });
   }
 
   void _loadInitWords() async {
     List result = await _getListWords('');
     setState(() {
-      items = result;
+      items = result as List<Word>;
     });
   }
 

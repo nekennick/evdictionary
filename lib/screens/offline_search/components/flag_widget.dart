@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FlagWidget extends StatelessWidget {
   FlagWidget({this.language});
 
-  final String language;
+  final String? language;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class FlagWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/icons/${language.toLowerCase()}.png',
+            'assets/icons/${language!.toLowerCase()}.png',
             width: 30,
             height: 30,
           ),

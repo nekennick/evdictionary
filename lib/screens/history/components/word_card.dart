@@ -3,21 +3,21 @@ import 'package:ev_dictionary/utilities/constaints.dart';
 
 class WordCard extends StatelessWidget {
   const WordCard({
-    @required this.items,
-    @required this.index,
+    required this.items,
+    required this.index,
     this.onPressed,
-    @required this.table,
+    required this.table,
   });
 
   final List items;
   final int index;
-  final Function onPressed;
-  final String table;
+  final Function? onPressed;
+  final String? table;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: onPressed as void Function()?,
       child: Container(
         padding: const EdgeInsets.all(18),
         margin: const EdgeInsets.only(bottom: 20),

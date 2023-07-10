@@ -21,12 +21,12 @@ class _NavigationState extends State<Navigation> {
     OnlineSearchScreen(),
   ];
 
-  PageController _pageController;
+  PageController? _pageController;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedScreen = index;
-      _pageController.jumpToPage(_selectedScreen);
+      _pageController!.jumpToPage(_selectedScreen);
     });
   }
 
@@ -38,7 +38,7 @@ class _NavigationState extends State<Navigation> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 

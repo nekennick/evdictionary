@@ -10,22 +10,22 @@ import 'components/shared_appbar.dart';
 
 class DefinitionScreen extends StatefulWidget {
   final Word word;
-  final Translate translateType;
+  final Translate? translateType;
 
-  DefinitionScreen({@required this.word, this.translateType});
+  DefinitionScreen({required this.word, this.translateType});
 
   @override
   _DefinitionScreenState createState() => _DefinitionScreenState();
 }
 
 class _DefinitionScreenState extends State<DefinitionScreen> {
-  Future<Html> _html;
+  Future<Html>? _html;
 
   final FlutterTts flutterTts = FlutterTts();
   bool _isFavorite = false;
 
   void _getFavoriteStatus() async {
-    Database db = await DatabaseHelper.instance.database;
+    Database db = (await DatabaseHelper.instance.database)!;
     String tableName;
     if (widget.translateType == Translate.av) {
       tableName = 'av';
@@ -54,7 +54,7 @@ class _DefinitionScreenState extends State<DefinitionScreen> {
     }
 
     await flutterTts.setSpeechRate(0.8);
-    await flutterTts.speak(widget.word.word);
+    await flutterTts.speak(widget.word.word!);
   }
 
   Icon _getFavoriteIconType() {
@@ -77,7 +77,7 @@ class _DefinitionScreenState extends State<DefinitionScreen> {
   }
 
   void _onPressedFavoriteButton() async {
-    Database db = await DatabaseHelper.instance.database;
+    Database? db = await DatabaseHelper.instance.database;
     String tableName;
 
     if (widget.translateType == Translate.av) {
@@ -87,10 +87,10 @@ class _DefinitionScreenState extends State<DefinitionScreen> {
     }
 
     if (!_isFavorite) {
-      db.rawQuery(
+      db!.rawQuery(
           '''INSERT INTO favorite (id, word, tb) VALUES (${widget.word.id}, '${widget.word.word}', '$tableName')''');
     } else {
-      db.rawQuery(
+      db!.rawQuery(
           '''DELETE FROM favorite WHERE id = ${widget.word.id} AND tb = '$tableName' ''');
     }
 
@@ -104,12 +104,12 @@ class _DefinitionScreenState extends State<DefinitionScreen> {
   }
 
   Future<Html> _buildHtml() async {
-    if (widget.word.html.length > 1800) {
+    if (widget.word.html!.length > 1800) {
       await Future.delayed(const Duration(milliseconds: 400));
     }
 
     // To decrease delay, add color to html by hand instead of use style of Html widget
-    String html = widget.word.html;
+    String html = widget.word.html!;
     StringBuffer temp = StringBuffer();
 
     for (int i = 0; i < html.length; ++i) {

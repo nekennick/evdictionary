@@ -21,39 +21,42 @@ class _FavoriteScreenState extends State<FavoriteScreen>
 
   List<Favorite> favoriteItems = [];
 
-  Future<List> _getListFavorite() async {
+  Future<List<Favorite>> _getListFavorite() async {
     Database db = await DatabaseHelper.instance.database;
 
-    List<Map> result = await db.rawQuery('SELECT * FROM favorite');
+    List<Map<String, dynamic>> result =
+        await db.rawQuery('SELECT * FROM favorite');
 
-    List<Favorite> favorites = List.generate(
-      result.length,
-      (i) => Favorite(
-        id: result[i]['id'],
-        word: result[i]['word'],
-        table: result[i]['tb'],
-      ),
-    );
+    List<Favorite> favorites = result
+        .map(
+          (item) => Favorite(
+            id: item['id'] as int,
+            word: item['word'] as String,
+            table: item['tb'] as String,
+          ),
+        )
+        .toList();
+
     favorites
         .sort((a, b) => (a.word.toLowerCase()).compareTo(b.word.toLowerCase()));
 
     return favorites;
   }
 
-  void _loadFavorite() async {
+  Future<void> _loadFavorite() async {
     favoriteItems = await _getListFavorite();
     setState(() {});
   }
 
-  void _deleteSelectedFavorite(Favorite item) async {
+  Future<void> _deleteSelectedFavorite(Favorite item) async {
     Database db = await DatabaseHelper.instance.database;
     String tableName = item.table;
 
-    db.rawQuery(
+    await db.rawQuery(
         '''DELETE FROM favorite WHERE id = ${item.id} AND tb = '$tableName' ''');
   }
 
-  Future _onPressedFavoriteItem(List items, int index) async {
+  Future<void> _onPressedFavoriteItem(List<Favorite> items, int index) async {
     Database db = await DatabaseHelper.instance.database;
 
     String tableName;
@@ -65,19 +68,20 @@ class _FavoriteScreenState extends State<FavoriteScreen>
       tableName = 'va';
       translateType = Translate.va;
     }
-    List<Map> result = await db.rawQuery(
+    List<Map<String, dynamic>> result = await db.rawQuery(
         'SELECT * FROM $tableName WHERE $tableName.id = ${items[index].id}');
 
-    List<Word> word = List.generate(
-      result.length,
-      (i) => Word(
-        id: result[i]['id'],
-        word: result[i]['word'],
-        html: result[i]['html'],
-        description: result[i]['description'],
-        pronounce: result[i]['pronounce'],
-      ),
-    );
+    List<Word> word = result
+        .map(
+          (item) => Word(
+            id: item['id'] as int,
+            word: item['word'] as String,
+            html: item['html'] as String,
+            description: item['description'] as String,
+            pronounce: item['pronounce'] as String,
+          ),
+        )
+        .toList();
 
     Navigator.push(
       context,

@@ -1,9 +1,9 @@
 class Word {
-  final int id;
-  final String word;
-  final String html;
-  final String description;
-  final String pronounce;
+  final int? id;
+  final String? word;
+  final String? html;
+  final String? description;
+  final String? pronounce;
 
   Word({
     this.id,

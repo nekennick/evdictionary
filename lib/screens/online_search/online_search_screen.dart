@@ -16,7 +16,7 @@ class OnlineSearchScreen extends StatefulWidget {
 class _OnlineSearchScreenState extends State<OnlineSearchScreen> {
   Translate translateType = Translate.av;
   String output = '';
-  String input;
+  late String input;
 
   var _controller = TextEditingController();
 
@@ -73,8 +73,10 @@ class _OnlineSearchScreenState extends State<OnlineSearchScreen> {
       targetLang = 'en';
     }
 
-    http.Response response = await http.get(
-        'https://translate.googleapis.com/translate_a/single?client=gtx&sl=$sourceLang&tl=$targetLang&dt=t&q=$value');
+    // http.Response response = await http.get(
+    //     'https://translate.googleapis.com/translate_a/single?client=gtx&sl=$sourceLang&tl=$targetLang&dt=t&q=$value');
+    http.Response response = await http.get(Uri.parse(
+        'https://translate.googleapis.com/translate_a/single?client=gtx&sl=$sourceLang&tl=$targetLang&dt=t&q=$value'));
 
     setState(() {
       if (response.statusCode == 200) {

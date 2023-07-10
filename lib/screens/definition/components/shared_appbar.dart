@@ -4,16 +4,16 @@ import 'custom_button.dart';
 
 class SharedAppBar extends StatelessWidget {
   SharedAppBar({
-    @required this.size,
-    @required this.title,
-    @required this.backgroundColor,
+    required this.size,
+    required this.title,
+    required this.backgroundColor,
     this.customButton,
   });
 
   final Size size;
-  final String title;
+  final String? title;
   final Color backgroundColor;
-  final CustomButton customButton;
+  final CustomButton? customButton;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class SharedAppBar extends StatelessWidget {
       backgroundColor: backgroundColor,
       toolbarHeight: size.height * 0.1,
       title: Text(
-        title,
+        title!,
         style: const TextStyle(
           fontSize: 35,
           fontWeight: FontWeight.bold,

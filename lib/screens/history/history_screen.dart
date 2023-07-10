@@ -23,7 +23,7 @@ class _HistoryScreenState extends State<HistoryScreen>
   List<History> historyItems = [];
 
   Future<List> _getListHistories() async {
-    Database db = await DatabaseHelper.instance.database;
+    Database db = (await DatabaseHelper.instance.database)!;
 
     List<Map> result =
         await db.rawQuery('SELECT * FROM history ORDER BY position DESC');
@@ -42,14 +42,14 @@ class _HistoryScreenState extends State<HistoryScreen>
   }
 
   void _loadHistory() async {
-    List<History> itemsLoaded = await _getListHistories();
+    List<History> itemsLoaded = await (_getListHistories() as FutureOr<List<History>>);
     setState(() {
       historyItems = itemsLoaded;
     });
   }
 
   void _deleteAllHistory() async {
-    Database db = await DatabaseHelper.instance.database;
+    Database db = (await DatabaseHelper.instance.database)!;
     db.rawQuery('DELETE FROM history');
 
     setState(() {
@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen>
   }
 
   Future<void> _onPressedHistoryItem(List items, int index) async {
-    Database db = await DatabaseHelper.instance.database;
+    Database db = (await DatabaseHelper.instance.database)!;
 
     String tableName;
     Translate translateType;
@@ -96,7 +96,7 @@ class _HistoryScreenState extends State<HistoryScreen>
   }
 
   void _deleteSelectedHistory(History item) async {
-    Database db = await DatabaseHelper.instance.database;
+    Database db = (await DatabaseHelper.instance.database)!;
 
     db.rawQuery('DELETE FROM history WHERE position = ${item.position}');
   }
